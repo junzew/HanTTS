@@ -4,7 +4,7 @@ Chinese Text-to-Speech(TTS)
 
 汉字 => ["han4", "zi4"] => .wav audio
 
-*Read this page in [简体中文](https://github.com/junzew/HanTTS/blog/master/README.zh.md)*
+*Read this page in [简体中文](https://github.com/junzew/HanTTS/blob/master/README.zh.md)*
 ## Libraries Used
 
 #### For turning Chinese characters into pinyin
@@ -20,7 +20,7 @@ A list of all Chinese characters is obtained from [倉頡平台2012](https://chi
 ## How to run
 * `git clone https://github.com/junzew/HanTTS.git`
 
-* Download and decompress [syllables.zip](https://sourceforge.net/projects/hantts/files/?source=navbar) on SourceForge
+* Download and decompress [`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source=navbar) on SourceForge
 
 * `python main.py`
 
