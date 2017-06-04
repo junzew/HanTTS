@@ -1,33 +1,34 @@
 # HanTTS
 
-汉语文字转语音 Chinese Text-to-Speech(TTS)
+Chinese Text-to-Speech(TTS)
 
-汉字 => 拼音 ["han4", "zi4"] => 读音
+汉字 => ["han4", "zi4"] => .wav audio
 
-## 使用的库
+*Read this page in [简体中文](https://github.com/junzew/HanTTS/blog/master/README.zh.md)*
+## Libraries Used
 
-#### 汉字转拼音
+#### For turning Chinese characters into pinyin
 - [pypinyin](https://github.com/mozillazg/python-pinyin)
 - [jieba](https://github.com/fxsjy/jieba)
 
-#### 处理、播放.wav音频文件
+#### For processing .wav files
 - [pydub](https://github.com/jiaaro/pydub)
 - [pyAudio](https://people.csail.mit.edu/hubert/pyaudio/)
 
-全部汉字列表从[倉頡平台2012](https://chinese.stackexchange.com/questions/22484/list-of-all-traditional-chinese-characters)获得
+A list of all Chinese characters is obtained from [倉頡平台2012](https://chinese.stackexchange.com/questions/22484/list-of-all-traditional-chinese-characters), a Chinese input software.
 
-## 运行
-`
-git clone https://github.com/junzew/HanTTS.git
-`
+## How to run
+* `git clone https://github.com/junzew/HanTTS.git`
 
-解压 syllables.zip
+* Download and decompress [syllables.zip](https://sourceforge.net/projects/hantts/files/?source=navbar) on SourceForge
 
-`python main.py`
+* `python main.py`
 
 ## Build a Chinese TTS engine using your own voice
-Record five tones of each pinyin listed in mapping.json, group them by the keys (a,b,c,d, etc.), and save under folder /recording as {key}.wav
-Then run process.py for each key to split into individual syllables.
+- Record [five tones](https://en.wikipedia.org/wiki/Pinyin#Tones) of each [pinyin](https://en.wikipedia.org/wiki/Pinyin_table) listed in mapping.json
+- Group them by the first letter (a,b,c,d, etc.), and save under folder `./recording` as {letter}.wav
+- Then run `python process.py {letter}`for each letter to split recordings into individual pinyin
+- Move valid .wav files from `./pre` to the folder `./syllables`
 
 ##
-基于alexram1313的[英文版](https://github.com/alexram1313/text-to-speech-sample)text-to-speech-sample
+Based on the [text-to-speech-sample](https://github.com/alexram1313/text-to-speech-sample) project by [@alexram1313](https://github.com/alexram1313)
