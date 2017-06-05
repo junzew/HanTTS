@@ -1,6 +1,7 @@
 const express = require('express')
 var bodyParser = require('body-parser');
 const spawn = require('child_process').spawn;
+var fs = require('fs');
 
 const app = express()
 app.use(express.static('public'))
@@ -9,6 +10,11 @@ app.use(bodyParser.json()); // for parsing application/json
 
 app.listen(3000, function () {
   console.log('app listening on port 3000')
+	var dir = './audio';
+	if (!fs.existsSync(dir)){
+	    fs.mkdirSync(dir);
+	    console.log("created directory ./audio")
+	}
 });
 
 app.post("/", function(req, res) {
@@ -23,6 +29,7 @@ app.post("/", function(req, res) {
 		}
 		console.log(output)
 		console.log("sending response")
+
 		res.send('<audio src="../audio/generated.wav" controls="true"></audio>')
 	});
 
