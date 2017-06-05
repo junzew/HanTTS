@@ -15,33 +15,34 @@ Chinese Text-to-Speech(TTS)
 - [pydub](https://github.com/jiaaro/pydub)
 - [pyAudio](https://people.csail.mit.edu/hubert/pyaudio/)
 
-#### Web Backend
+#### Web backend
 - [Express](https://expressjs.com)
 
 A list of all Chinese characters is obtained from [倉頡平台2012](https://chinese.stackexchange.com/questions/22484/list-of-all-traditional-chinese-characters), a Chinese input software.
 
-## How to build and run
+## Build and Run
 
-1. 
 ```
 git clone https://github.com/junzew/HanTTS.git
 cd HanTTS
 pip install pypinyin
+pip install jieba
 pip install pydub
 pip install pyaudio
 ```
 
-2. Download [`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source=navbar) from SourceForge, and decompress.
+Download [`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source=navbar) from SourceForge, and decompress.
 
-3. Then 
 * Either run locally: `python main.py` 
 * Or through web interface:
-	- `cd` into the `server` folder
-	- `npm install`
-	- `node app.js`
-	- Navigate to `localhost:3000` in a browser
+	`cd` into the `server` folder
+	```
+	npm install
+	node app.js
+	```
+	Navigate to `localhost:3000` in a browser
 
-## Build a Chinese TTS engine using your own voice
+## Use your own voice
 - Record [five tones](https://en.wikipedia.org/wiki/Pinyin#Tones) of each [pinyin](https://en.wikipedia.org/wiki/Pinyin_table) listed in `mapping.json`
 - Group them by the first letter (a,b,c,d, etc.), and save under folder `./recording` as `{letter}.wav`
 - Then run `python process.py {letter}`for each `letter` to split recordings into individual pinyin
