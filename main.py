@@ -12,6 +12,7 @@ import pyaudio
 import _thread
 import time
 import sys
+import os
 
 class TextToSpeech:
 
@@ -64,7 +65,11 @@ class TextToSpeech:
             result = result.overlay(segment, position=delay)
             delay += increment
 
-        result.export("./audio/generated.wav", format="wav")
+        directory = "./audio/"
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+        result.export(directory+"generated.wav", format="wav")
         print("Exported.")
 
     def format_syll(syllable):
