@@ -19,7 +19,7 @@
 ## 运行
 * `git clone https://github.com/junzew/HanTTS.git`
 
-* 下载并解压 [syllables.zip](https://sourceforge.net/projects/hantts/files/?source=navbar) on SourceForge
+* 下载并解压 [`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source=navbar) on SourceForge
 
 * `python main.py`
 
