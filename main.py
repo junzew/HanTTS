@@ -1,3 +1,4 @@
+# -*- coding=utf-8 -*-
 # Author: junzew
 # Date: 2017 May 27
 # Adapted from code written by Alex I. Ramirez @alexram1313 arcompware.com

@@ -22,7 +22,14 @@ A list of all Chinese characters is obtained from [倉頡平台2012](https://chi
 
 ## How to build and run
 
-1. `git clone https://github.com/junzew/HanTTS.git`
+1. 
+```
+git clone https://github.com/junzew/HanTTS.git
+cd HanTTS
+pip install pypinyin
+pip install pydub
+pip install pyaudio
+```
 
 2. Download [`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source=navbar) from SourceForge, and decompress.
 

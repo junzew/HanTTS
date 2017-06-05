@@ -21,9 +21,17 @@
 
 ## 运行
 
-1. `git clone https://github.com/junzew/HanTTS.git`
-2. 下载并解压 [`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source=navbar) on SourceForge
-3. 之后
+```
+git clone https://github.com/junzew/HanTTS.git
+cd HanTTS
+pip install pypinyin
+pip install jieba
+pip install pydub
+pip install pyaudio
+```
+
+下载并解压 [`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source=navbar) on SourceForge
+
 - 本地执行 `python main.py`
 - 或 Web
 	- `cd` 到 `server` 文件夹下
