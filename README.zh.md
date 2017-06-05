@@ -14,15 +14,18 @@
 - [pydub](https://github.com/jiaaro/pydub)
 - [pyAudio](https://people.csail.mit.edu/hubert/pyaudio/)
 
+#### Web
+- [Express](https://expressjs.com)
+
 全部汉字列表从[倉頡平台2012](https://chinese.stackexchange.com/questions/22484/list-of-all-traditional-chinese-characters)获得
 
 ## 运行
 
-`git clone https://github.com/junzew/HanTTS.git`
-- 本地
-	- 下载并解压 [`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source=navbar) on SourceForge
-	- `python main.py`
-- Web
+1. `git clone https://github.com/junzew/HanTTS.git`
+2. 下载并解压 [`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source=navbar) on SourceForge
+3. 之后
+- 本地执行 `python main.py`
+- 或 Web
 	- `cd` 到 `server` 文件夹下
 	- `npm install`
 	- `node app.js`
