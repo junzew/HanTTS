@@ -18,11 +18,17 @@ Chinese Text-to-Speech(TTS)
 A list of all Chinese characters is obtained from [倉頡平台2012](https://chinese.stackexchange.com/questions/22484/list-of-all-traditional-chinese-characters), a Chinese input software.
 
 ## How to run
-* `git clone https://github.com/junzew/HanTTS.git`
+`git clone https://github.com/junzew/HanTTS.git`
 
-* Download and decompress [`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source=navbar) on SourceForge
+- Locally:
+	- Download and decompress [`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source=navbar) on SourceForge
+	- `python main.py`
 
-* `python main.py`
+- Web interface:
+	- `cd` into the `server` foler
+	- `npm install`
+	- `node app.js`
+	- Navigate to `localhost:3000` in the browser
 
 ## Build a Chinese TTS engine using your own voice
 - Record [five tones](https://en.wikipedia.org/wiki/Pinyin#Tones) of each [pinyin](https://en.wikipedia.org/wiki/Pinyin_table) listed in mapping.json

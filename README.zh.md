@@ -17,11 +17,16 @@
 全部汉字列表从[倉頡平台2012](https://chinese.stackexchange.com/questions/22484/list-of-all-traditional-chinese-characters)获得
 
 ## 运行
-* `git clone https://github.com/junzew/HanTTS.git`
 
-* 下载并解压 [`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source=navbar) on SourceForge
-
-* `python main.py`
+`git clone https://github.com/junzew/HanTTS.git`
+- 本地
+	- 下载并解压 [`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source=navbar) on SourceForge
+	- `python main.py`
+- Web
+	- `cd` 到 `server` 文件夹下
+	- `npm install`
+	- `node app.js`
+	- 浏览器里打开`localhost:3000` 
 
 ## 录制新的语音库
 - 按阴平、阳平、上声、去声、轻声的顺序录下 mapping.json 里每一个音节的五个声调
