@@ -46,20 +46,18 @@ class TextToSpeech:
         pause = 500 # pause for punctuation
         syllables = lazy_pinyin(text, style=pypinyin.TONE2)
 
+        print(syllables)
         # initialize to be complete silence, each character takes up ~500ms
         result = AudioSegment.silent(duration=500*len(text))
         for syllable in syllables:
             sound = TextToSpeech.format_syll(syllable)
             path = "../syllables/"+sound+".wav"
             sound_file = Path(path)
-            # insert 500 ms silence for punctuation marks
-            if sound in TextToSpeech.punctuation:
+            # insert 500 ms silence for punctuation marks or nonexistent file
+            if sound in TextToSpeech.punctuation or not sound_file.is_file():
                 short_silence = AudioSegment.silent(duration=pause)
                 result = result.overlay(short_silence, position=delay)
                 delay += increment
-                continue
-            # skip sound file that doesn't exist
-            if not sound_file.is_file():
                 continue
             segment = AudioSegment.from_wav(path)
             result = result.overlay(segment, position=delay)
@@ -69,7 +67,7 @@ class TextToSpeech:
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-        result.export(directory+"generated.wav", format="wav")
+        result.export(directory+"generated"+ip+".wav", format="wav")
         print("Exported.")
 
     def format_syll(syllable):
@@ -111,4 +109,5 @@ if __name__ == '__main__':
     # while True:
     #     tts.speak(input('输入中文：'))
     text = sys.argv[1:][0]
+    ip = sys.argv[1:][1]
     tts.synthesize(text)

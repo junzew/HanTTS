@@ -17,20 +17,32 @@ app.listen(3000, function () {
 	}
 });
 
+app.options("/", function(req, res) {
+	res.set("Access-Control-Allow-Origin", "*");
+	res.set("Content-Type","text/plain");
+	res.set("Access-Control-Allow-Methods","POST, GET, OPTIONS");
+	res.set("Access-Control-Allow-Headers", "Content-Type, x-requested-with ");
+	res.status(200).end();
+	
+});
 app.post("/", function(req, res) {
 	var text = req.body.text;
-	console.log(text)
-	var process = spawn('python',["../main.py", text]);
+	console.log(text);
+	var IP = req.ip;
+	var process = spawn('python3',["../main.py", text, IP]);
 	var output = "";
     process.stdout.on('data', function(data){ output += data });
 	process.on("close", function(code) {
+		res.set("Access-Control-Allow-Origin", "*");
+		res.set("Content-Type","text/plain");
+		res.set("Access-Control-Allow-Headers", "x-requested-with");
 		if (code !== 0) {
 			return res.send('error')
 		}
 		console.log(output)
 		console.log("sending response")
 
-		res.send('<audio src="../audio/generated.wav" controls="true"></audio>')
+		res.send('<audio id="sound0" src="../audio/generated'+IP+'.wav" controls="true"></audio>')
 	});
 
 });

@@ -6,26 +6,33 @@
 </head>
 <body>
 <script src="https://code.jquery.com/jquery-3.2.1.js"   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="   crossorigin="anonymous"></script>
+输入中文：<br>
 <textarea id="input-text"></textarea>
 <br>
 <button id="bt">Synthesize</button>
 <script type="text/javascript">
 	$("#bt").click(function() {
 		var text = $("#input-text").val();
-		$.ajax({
-			url: "http://localhost:3000",
-			data: JSON.stringify({"text": text}),
-			contentType: "application/json",
-			type: "POST",
-			success: function(data) {
-				alert("Synthesis Completed.")
-				$("#player").html(data)
-			}
-		});
+		if (text.length > 1000) {
+			alert("The input is too long. Please enter < 1000 characters.");
+		} else {
+			$.ajax({
+				url: "http://www.junze.tk",
+				crossDomain: true,
+				data: JSON.stringify({"text": text}),
+				contentType: "application/json",
+				type: "POST",
+				success: function(data) {
+					alert("Synthesis Completed.")
+					$("#player").html(data);
+					$("#sound0")[0].load();
+				}
+			});
+		}
 	});
 </script>
-<div id="player"></div>
-
+<div id="player">
+</div>
 </body>
 
 </html>
