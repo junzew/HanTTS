@@ -2,7 +2,45 @@ textarea {
   width: 300px;
   height: 200px;
 }
+a:link {
+    color: #FEC441;
+}
 #player {
   position: relative;
   top: 20px;
+}
+.btn {
+  background-color:#0f0f0f;
+  color: #fff;
+  font-size:16px;
+  height: 36px;
+  border: 3px #FEC441 double;
+  width: 150px;
+  margin-top: 16px;
+  margin-left: 75px;
+} 
+
+#bt:hover {
+  background-color: #66B2FF;
+}
+body {
+  background-color: #0f0f0f; 
+  padding: 20px;
+  color: white;
+}
+#footer {
+  margin-top: 50px;
+}
+#imagebox {
+  background-color: #0f0f0f; 
+  width: 300px;
+}
+html {
+    display: table;
+    margin: auto;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
 }

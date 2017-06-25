@@ -2,11 +2,17 @@ const express = require('express')
 var bodyParser = require('body-parser');
 const spawn = require('child_process').spawn;
 var fs = require('fs');
-
+var requests = 0;
 const app = express()
 app.use(express.static('public'))
 app.use('/audio', express.static('audio'))
 app.use(bodyParser.json()); // for parsing application/json
+app.use(function (req, res, next) { // no cache
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.header('Expires', '-1');
+    res.header('Pragma', 'no-cache');
+    next()
+});
 
 app.listen(3000, function () {
   console.log('app listening on port 3000')
@@ -23,7 +29,10 @@ app.options("/", function(req, res) {
 	res.set("Access-Control-Allow-Methods","POST, GET, OPTIONS");
 	res.set("Access-Control-Allow-Headers", "Content-Type, x-requested-with ");
 	res.status(200).end();
-	
+});
+app.get("/count", function(req,res) {
+	requests++;
+	res.send(requests.toString());
 });
 app.post("/", function(req, res) {
 	var text = req.body.text;
@@ -41,8 +50,8 @@ app.post("/", function(req, res) {
 		}
 		console.log(output)
 		console.log("sending response")
-
-		res.send('<audio id="sound0" src="../audio/generated'+IP+'.wav" controls="true"></audio>')
+		res.send(IP);
+		// res.send('<audio id="sound0" src="../audio/generated'+IP+'.wav" controls="true"></audio>')
 	});
 
 });

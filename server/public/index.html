@@ -6,33 +6,50 @@
 </head>
 <body>
 <script src="https://code.jquery.com/jquery-3.2.1.js"   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="   crossorigin="anonymous"></script>
-输入中文：<br>
-<textarea id="input-text"></textarea>
+<div id="imagebox">
+<img src="HanTTS.png" alt="HanTTS.png" style="width:300px;height:80px;">
+</div>
 <br>
-<button id="bt">Synthesize</button>
+<textarea id="input-text" placeholder="输入中文："></textarea>
+<br>
+<button class="btn" id="bt">合成</button>
+<div id="player">
+</div>
+<audio id="sound0" controls="true" ></audio>
+<div id="wrap">
+  <div id="main"></div>
+</div>
+
 <script type="text/javascript">
+	$("#sound0").css("display", "none");
 	$("#bt").click(function() {
 		var text = $("#input-text").val();
-		if (text.length > 1000) {
+		if (text.length == 0) {
+			alert("内容不能为空");
+		} else if (text.length > 1000) {
 			alert("The input is too long. Please enter < 1000 characters.");
 		} else {
 			$.ajax({
-				url: "http://www.junze.tk",
-				crossDomain: true,
+				url: "/",
 				data: JSON.stringify({"text": text}),
 				contentType: "application/json",
 				type: "POST",
 				success: function(data) {
-					alert("Synthesis Completed.")
-					$("#player").html(data);
-					$("#sound0")[0].load();
+					alert("Synthesis Complete.")
+					$("#sound0").css({"display": "", "margin-top": "16px","width": "300px"});
+					var IP = data;
+					var playme = document.getElementById('sound0'); 
+					playme.src='../audio/generated'+IP+'.wav'+"?bust=" + new Date().getTime(); 
+					playme.load();
 				}
 			});
 		}
 	});
+$.get( "/count", function( data ) {
+  $( "#counter" ).html( data );
+});
 </script>
-<div id="player">
-</div>
+<div id="footer">Author: <a href="http://github.com/junzew">github/junzew</a></div>
+Page visit count: <span id="counter" color="white"></span>
 </body>
-
 </html>
