@@ -25,7 +25,7 @@ class TextToSpeech:
 
     def speak(self, text):
         # syllables = lazy_pinyin(text, style=pypinyin.TONE)
-        syllables = lazy_pinyin(text, style=pypinyin.TONE2)
+        syllables = lazy_pinyin(text, style=pypinyin.TONE3)
         print(syllables)
         delay = 0
         
@@ -36,7 +36,7 @@ class TextToSpeech:
                     syllable = syllable.replace(p, "")
                 if syllable.isdigit():
                     syllable = atc.num2chinese(syllable)
-                    new_sounds = lazy_pinyin(syllable, style=pypinyin.TONE2)
+                    new_sounds = lazy_pinyin(syllable, style=pypinyin.TONE3)
                     for e in new_sounds:
                         temp.append(e)
                 else:
@@ -45,9 +45,7 @@ class TextToSpeech:
 
         syllables = preprocess(syllables)
         for syllable in syllables:
-            
-            sound = TextToSpeech.format_syll(syllable)
-            path = "syllables/"+sound+".wav"
+            path = "syllables/"+syllable+".wav"
             # print(path)
             _thread.start_new_thread(TextToSpeech._play_audio, (path, delay))
             # TextToSpeech._play_audio(TextToSpeech.format_syll(syllable), delay)
@@ -64,13 +62,12 @@ class TextToSpeech:
         delay = 0
         increment = 355 # milliseconds
         pause = 500 # pause for punctuation
-        syllables = lazy_pinyin(text, style=pypinyin.TONE2)
+        syllables = lazy_pinyin(text, style=pypinyin.TONE3)
 
         # initialize to be complete silence, each character takes up ~500ms
         result = AudioSegment.silent(duration=500*len(text))
         for syllable in syllables:
-            sound = TextToSpeech.format_syll(syllable)
-            path = src+sound+".wav"
+            path = src+syllable+".wav"
             sound_file = Path(path)
             # insert 500 ms silence for punctuation marks
             if sound in TextToSpeech.punctuation:
@@ -91,16 +88,6 @@ class TextToSpeech:
 
         result.export(directory+"generated.wav", format="wav")
         print("Exported.")
-
-    def format_syll(syllable):
-        """
-        ba2ng -> bang2
-        """
-        result = syllable
-        for i in range(len(syllable)):
-            if syllable[i].isdigit():
-                result = syllable[:i]+syllable[i+1:]+syllable[i]
-        return result
 
     def _play_audio(path, delay):
         try:
