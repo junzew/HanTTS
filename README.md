@@ -25,13 +25,10 @@ A list of all Chinese characters is obtained from [倉頡平台2012](https://chi
 ```
 git clone https://github.com/junzew/HanTTS.git
 cd HanTTS
-pip install pypinyin
-pip install jieba
-pip install pydub
-pip install pyaudio
+pip install --user -r requires.txt
 ```
 
-Download [`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source=navbar) from SourceForge, and decompress.
+Download [`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source=navbar) from SourceForge, and decompress under the directory `HanTTS`.
 
 * Either run locally: `python main.py` 
 * Or through web interface:

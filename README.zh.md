@@ -2,7 +2,7 @@
 
 汉语文字转语音 (TTS)
 
-汉字 => 拼音 ["han4", "zi4"] => 读音
+汉字 => 拼音 ["han4", "zi4"] => .wav音频
 
 ## 使用的库
 
@@ -24,13 +24,10 @@
 ```
 git clone https://github.com/junzew/HanTTS.git
 cd HanTTS
-pip install pypinyin
-pip install jieba
-pip install pydub
-pip install pyaudio
+pip install --user -r requires.txt
 ```
 
-下载并解压 [`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source=navbar) on SourceForge
+从SourceForge下载语音库[`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source=navbar)，并解压到`HanTTS`目录下
 
 - 本地执行 `python main.py`
 - 或 Web
