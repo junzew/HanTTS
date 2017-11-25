@@ -63,7 +63,7 @@ app.get("/file", function(req, res) {
 	var IP = req.ip;
 	console.log("GET /file " + IP)
 	var file = './audio/generated'+IP+'.wav'
-	if(!fs.existsSync()) {
+	if(!fs.existsSync(file)) {
 		console.log(file + " does not exist")
 		return res.status(404).end();
 	}

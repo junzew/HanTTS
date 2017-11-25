@@ -46,10 +46,7 @@
 		}
 	});
 	$("#download").click(function() {
-		$.get("/file")
-		.fail(function(jqXHR, textStatus, errorThrown) {
-			alert(jqXHR.status + ' download failed')
-		})
+		window.location.replace("/file");
 	});
 $.get( "/count", function( data ) {
   $( "#counter" ).html( data );
