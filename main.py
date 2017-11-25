@@ -5,6 +5,7 @@
 
 from pypinyin import lazy_pinyin
 import pypinyin
+import pydub
 from pydub import AudioSegment
 from pathlib import Path
 import wave
@@ -14,6 +15,12 @@ import time
 import sys
 import os
 import requests
+import atc
+import argparse
+
+# for demo only, please replace with your own API key
+Turing_API_key = "64c88489ad7f432591d702ec1334dedc" 
+Turing_API_address = "http://www.tuling123.com/openapi/api"
 
 class TextToSpeech:
 
@@ -24,7 +31,6 @@ class TextToSpeech:
         pass
 
     def speak(self, text):
-        # syllables = lazy_pinyin(text, style=pypinyin.TONE)
         syllables = lazy_pinyin(text, style=pypinyin.TONE3)
         print(syllables)
         delay = 0
@@ -46,16 +52,13 @@ class TextToSpeech:
         syllables = preprocess(syllables)
         for syllable in syllables:
             path = "syllables/"+syllable+".wav"
-            # print(path)
             _thread.start_new_thread(TextToSpeech._play_audio, (path, delay))
-            # TextToSpeech._play_audio(TextToSpeech.format_syll(syllable), delay)
             delay += 0.355
 
-    def synthesize(self, text, src="./syllables/", dst="./audio/"):
+    def synthesize(self, text, src, dst):
         """
         Synthesize .wav from text
-        Directory is relative to server/app.js
-        src is the folder that contains all syllables
+        src is the folder that contains all syllables .wav files
         dst is the destination folder to save the synthesized file
         """
         print("Synthesizing ...")
@@ -70,7 +73,7 @@ class TextToSpeech:
             path = src+syllable+".wav"
             sound_file = Path(path)
             # insert 500 ms silence for punctuation marks
-            if sound in TextToSpeech.punctuation:
+            if syllable in TextToSpeech.punctuation:
                 short_silence = AudioSegment.silent(duration=pause)
                 result = result.overlay(short_silence, position=delay)
                 delay += increment
@@ -113,37 +116,58 @@ class TextToSpeech:
         except:
             pass
 
-    
-import atc
-APIkey = "64c88489ad7f432591d702ec1334dedc";
+def start_chatting(key, location):
+    print("你好!")
+    key = Turing_API_key if key is None else key
+    location = "北京市中关村" if location is None else location
+    while True:
+        sentence = input('输入中文：')
+        r = requests.post(
+            Turing_API_address, 
+            json = {
+            "key": key,
+            "info": sentence, 
+            "loc": location, 
+            "userid":"1"
+            })
+        response = r.json()["text"]
+        print(response)
+        tts.speak(response)
+
 if __name__ == '__main__':
     tts = TextToSpeech()
-    if len(sys.argv[1:]) == 0:
+    
+    parser = argparse.ArgumentParser(description="HanTTS: Chinese Text-to-Speech program")
+    subparsers = parser.add_subparsers(title="subcommands", help='optional subcommands', dest='cmd')
+    
+    synthesize_parser = subparsers.add_parser('synthesize', help='synthesize audio from text')
+    synthesize_parser.add_argument('--text', help='the text to convert to speech', dest='text')
+    synthesize_parser.add_argument('--src', help='source directory of audio library', dest='src')
+    synthesize_parser.add_argument('--dst', help='destination directory for generated .wav file', dest='dst')
+
+    chat_parser = subparsers.add_parser('chat', help='chat using Turing Robot API')
+    chat_parser.add_argument('--key', help='Turing Robot API key', dest='api_key')
+    chat_parser.add_argument('--location', help='your physical location', dest='location')
+
+    args = parser.parse_args()
+    if args.cmd == 'synthesize':
+        if not args.text:
+            synthesize_parser.print_help()
+            print('ERROR: Missing argument --text')
+            sys.exit(1)
+        if not args.src:
+            synthesize_parser.print_help()
+            print('ERROR: Missing argument --src')
+            sys.exit(1)
+        if not args.dst:
+            synthesize_parser.print_help()
+            print('ERROR: Missing argument --dst')
+            sys.exit(1)
+        tts.synthesize(args.text, args.src, args.dst)
+    elif args.cmd == 'chat':
+        start_chatting(args.api_key, args.location)
+    else:
         while True:
             tts.speak(input('输入中文：'))
-    else:
-        option = sys.argv[1:][0]
-        if option == '-s': # synthesize    
-            text = sys.argv[1:][1]
-            tts.synthesize(text)
-        elif option == '-c': # chat
-            print("Hello there!")
-            while True:
-                sentence = input('输入中文：')
-                r = requests.post(
-                    "http://www.tuling123.com/openapi/api", 
-                    json = {
-                    "key": APIkey,
-                    "info": sentence, 
-                    "loc":"北京市中关村", 
-                    "userid":"1"
-                    })
-                response = r.json()["text"]
-                print(response)
-                tts.speak(response)
-        else:
-            print("usage: python main.py [-sc] {text}")
-            print("                       -s synthesize")
-            print("                       -c chat")
 
 
