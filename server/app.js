@@ -36,8 +36,9 @@ app.get("/count", function(req,res) {
 });
 app.post("/", function(req, res) {
 	var text = req.body.text;
-	console.log(text);
 	var IP = req.ip;
+	console.log('POST / ' + IP);
+	console.log(text);
 	var process = spawn('python3',["../main.py", text, IP]);
 	var output = "";
     process.stdout.on('data', function(data){ output += data });
@@ -53,5 +54,21 @@ app.post("/", function(req, res) {
 		res.send(IP);
 		// res.send('<audio id="sound0" src="../audio/generated'+IP+'.wav" controls="true"></audio>')
 	});
+});
 
+app.get("/file", function(req, res) {
+	var IP = req.ip;
+	console.log("GET /file " + IP)
+	var file = './audio/generated'+IP+'.wav'
+	if(!fs.existsSync()) {
+		console.log(file + " does not exist")
+		return res.status(404).end();
+	}
+	res.download(file, function(err) {
+		if (err) {
+			console.log(err)
+		} else {
+			console.log("download success")
+		}
+	})
 });

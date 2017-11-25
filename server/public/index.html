@@ -13,15 +13,14 @@
 <textarea id="input-text" placeholder="输入中文："></textarea>
 <br>
 <button class="btn" id="bt">合成</button>
-<div id="player">
-</div>
+<br>
 <audio id="sound0" controls="true" ></audio>
-<div id="wrap">
-  <div id="main"></div>
-</div>
+<br>
+<button class="btn" id="download">下载</button>
 
 <script type="text/javascript">
 	$("#sound0").css("display", "none");
+	$("#download").css("display", "none")
 	$("#bt").click(function() {
 		var text = $("#input-text").val();
 		if (text.length == 0) {
@@ -41,9 +40,16 @@
 					var playme = document.getElementById('sound0'); 
 					playme.src='../audio/generated'+IP+'.wav'+"?bust=" + new Date().getTime(); 
 					playme.load();
+					$("#download").css("display", "") // show download button
 				}
 			});
 		}
+	});
+	$("#download").click(function() {
+		$.get("/file")
+		.fail(function(jqXHR, textStatus, errorThrown) {
+			alert(jqXHR.status + ' download failed')
+		})
 	});
 $.get( "/count", function( data ) {
   $( "#counter" ).html( data );

@@ -5,10 +5,7 @@ textarea {
 a:link {
     color: #FEC441;
 }
-#player {
-  position: relative;
-  top: 20px;
-}
+
 .btn {
   background-color:#0f0f0f;
   color: #fff;
@@ -20,7 +17,7 @@ a:link {
   margin-left: 75px;
 } 
 
-#bt:hover {
+.btn:hover {
   background-color: #66B2FF;
 }
 body {
