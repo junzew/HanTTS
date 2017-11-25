@@ -37,8 +37,11 @@ app.get("/count", function(req,res) {
 app.post("/", function(req, res) {
 	var text = req.body.text;
 	var IP = req.ip;
-	console.log('POST / ' + IP);
+	console.log('POST / ');
 	console.log(text);
+	var time = new Date().toLocaleString();
+	console.log(time)
+	console.log("IP address: "+IP)
 	var process = spawn('python3',["../main.py", text, IP]);
 	var output = "";
     process.stdout.on('data', function(data){ output += data });
