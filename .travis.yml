@@ -1,0 +1,13 @@
+matrix:
+  include:
+    - language: python
+      python: 
+        - "3.5"
+      install:
+        - pip install -r requires.txt
+
+    - language: node_js
+      node_js: 
+        - "6"
+      before_script:
+        - cd server
