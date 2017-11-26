@@ -1,10 +1,17 @@
 matrix:
   include:
     - language: python
-      python: 
-        - "3.4"
+      python: 3.4.3
+      before_install:
+        - sudo apt-get update
+        - sudo apt-get install python3
+        - sudo apt-get install python-pyaudio python3-pyaudio
       install:
-        - pip install -r requires.txt
+        - pip install pypinyin
+        - pip install jieba
+        - pip install pydub
+      script:
+        - echo "foo"
 
     - language: node_js
       node_js: 
