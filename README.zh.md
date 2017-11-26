@@ -1,4 +1,4 @@
-# HanTTS
+# HanTTS [![Build Status](https://travis-ci.org/junzew/HanTTS.svg?branch=master)](https://travis-ci.org/junzew/HanTTS)
 
 汉语文字转语音 (TTS)
 
