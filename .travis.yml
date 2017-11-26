@@ -10,6 +10,8 @@ matrix:
         - pip install pypinyin
         - pip install jieba
         - pip install pydub
+      script:
+        - echo "foo"
 
     - language: node_js
       node_js: 
