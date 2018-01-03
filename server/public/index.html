@@ -38,7 +38,7 @@
 					$("#sound0").css({"display": "", "margin-top": "16px","width": "300px"});
 					var IP = data;
 					var playme = document.getElementById('sound0'); 
-					playme.src='../audio/generated'+IP+'.wav'+"?bust=" + new Date().getTime(); 
+					playme.src='../../audio/generated'+IP+'.wav'+"?bust=" + new Date().getTime(); 
 					playme.load();
 					$("#download").css("display", "") // show download button
 				}
