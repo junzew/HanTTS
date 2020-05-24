@@ -8,7 +8,7 @@ app.use(express.static('public'))
 app.use('/audio', express.static('audio'))
 app.use(bodyParser.json()); // for parsing application/json
 
-app.listen(3000, function () {
+app.listen(process.env.PORT || 3000, function () {
 	console.log('app listening on port 3000')
 	var dir = './audio';
 	if (!fs.existsSync(dir)){
