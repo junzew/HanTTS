@@ -20,7 +20,7 @@ app.listen(3000, function () {
 app.post("/", function(req, res) {
 	var text = req.body.text;
 	console.log(text)
-	args = ["../main.py", 'synthesize', '--text', text, '--src', "../syllables/", '--dst', "./audio/"]
+	args = ["./main.py", 'synthesize', '--text', text, '--src', "./syllables/", '--dst', "./audio/"]
 	var process = spawn('python', args);
 	var output = "";
     process.stdout.on('data', function(data){ output += data });
