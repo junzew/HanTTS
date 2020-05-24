@@ -24,9 +24,10 @@ app.post("/", function(req, res) {
 	var process = spawn('python', args);
 	var output = "";
     process.stdout.on('data', function(data){ output += data });
+    process.stderr.on('data', function(data){ console.error(`stderr: ${data}`); });
 	process.on("close", function(code) {
 		if (code !== 0) {
-			return res.send('error')
+			return res.send(`child process exited with code ${code}`)
 		}
 		console.log(output)
 		console.log("sending response")
