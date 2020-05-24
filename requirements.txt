@@ -2,3 +2,5 @@ pypinyin
 jieba
 pydub
 pyaudio
+requests
+argparse
