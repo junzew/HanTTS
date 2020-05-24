@@ -1,3 +1,4 @@
 pypinyin
 jieba
 pydub
+pyaudio
