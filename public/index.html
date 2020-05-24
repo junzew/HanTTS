@@ -13,7 +13,7 @@
 	$("#bt").click(function() {
 		var text = $("#input-text").val();
 		$.ajax({
-			url: "http://localhost:3000",
+			url: "/",
 			data: JSON.stringify({"text": text}),
 			contentType: "application/json",
 			type: "POST",
