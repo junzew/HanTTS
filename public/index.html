@@ -13,7 +13,7 @@
 	$("#bt").click(function() {
 		var text = $("#input-text").val();
 		$.ajax({
-			url: "/",
+			url: "https://hantts.herokuapp.com/",
 			data: JSON.stringify({"text": text}),
 			contentType: "application/json",
 			type: "POST",
