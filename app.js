@@ -2,6 +2,8 @@ const express = require('express')
 var bodyParser = require('body-parser');
 const spawn = require('child_process').spawn;
 var fs = require('fs');
+const path = require('path');
+const utf8 = require('utf8');
 
 const app = express()
 app.use(express.static('public'))
@@ -17,11 +19,11 @@ app.listen(process.env.PORT || 3000, function () {
 	}
 });
 
-app.post("/", function(req, res) {
-	var text = req.body.text;
+app.get("/:text", function(req, res) {
+	var text = utf8.decode(req.params.text);
 	console.log(text)
 	args = ["./main.py", 'synthesize', '--text', text, '--src', "./syllables/", '--dst', "./audio/"]
-	var process = spawn('python', args);
+	var process = spawn('python3', args);
 	var output = "";
     process.stdout.on('data', function(data){ output += data });
     process.stderr.on('data', function(data){ console.error(`stderr: ${data}`); });
@@ -32,10 +34,6 @@ app.post("/", function(req, res) {
 		console.log(output)
 		console.log("sending response")
 
-		res.send('<audio src="./audio/generated.wav" controls="true"></audio>')
+		res.sendFile(path.join(__dirname, "./audio/generated.mp3"))
 	});
-});
-
-app.get("/file", function(req, res) {
-	res.download("./audio/generated.wav")
 });

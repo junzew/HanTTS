@@ -5,7 +5,7 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<script src="https://code.jquery.com/jquery-3.2.1.js"   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="   crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" crossorigin="anonymous"></script>
 <textarea id="input-text"></textarea>
 <br>
 <button id="bt">Synthesize</button>
@@ -13,7 +13,7 @@
 	$("#bt").click(function() {
 		var text = $("#input-text").val();
 		$.ajax({
-			url: "https://hantts.herokuapp.com/",
+			url: window.location,
 			data: JSON.stringify({"text": text}),
 			contentType: "application/json",
 			type: "POST",
