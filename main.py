@@ -19,13 +19,13 @@ import atc
 import argparse
 
 # for demo only, please replace with your own API key
-Turing_API_key = "64c88489ad7f432591d702ec1334dedc" 
+Turing_API_key = "64c88489ad7f432591d702ec1334dedc"
 Turing_API_address = "http://www.tuling123.com/openapi/api"
 
-class TextToSpeech:
 
+class TextToSpeech:
     CHUNK = 1024
-    punctuation = ['，', '。','？','！','“','”','；','：','（',"）",":",";",",",".","?","!","\"","\'","(",")"]
+    punctuation = ['，', '。', '？', '！', '“', '”', '；', '：', '（', "）", ":", ";", ",", ".", "?", "!", "\"", "\'", "(", ")"]
 
     def __init__(self):
         pass
@@ -34,7 +34,7 @@ class TextToSpeech:
         syllables = lazy_pinyin(text, style=pypinyin.TONE3)
         print(syllables)
         delay = 0
-        
+
         def preprocess(syllables):
             temp = []
             for syllable in syllables:
@@ -51,11 +51,11 @@ class TextToSpeech:
 
         syllables = preprocess(syllables)
         for syllable in syllables:
-            path = "syllables/"+syllable+".wav"
+            path = "syllables/" + syllable + ".wav"
             _thread.start_new_thread(TextToSpeech._play_audio, (path, delay))
             delay += 0.355
 
-    def synthesize(self, text, src, dst):
+    def synthesize(self, text, src, dst, audio_type, compressed):
         """
         Synthesize .wav from text
         src is the folder that contains all syllables .wav files
@@ -63,14 +63,14 @@ class TextToSpeech:
         """
         print("Synthesizing ...")
         delay = 0
-        increment = 355 # milliseconds
-        pause = 500 # pause for punctuation
+        increment = 355  # milliseconds
+        pause = 500  # pause for punctuation
         syllables = lazy_pinyin(text, style=pypinyin.TONE3)
 
         # initialize to be complete silence, each character takes up ~500ms
-        result = AudioSegment.silent(duration=500*len(text))
+        result = AudioSegment.silent(duration=500 * len(text))
         for syllable in syllables:
-            path = src+syllable+".wav"
+            path = src + syllable + ".wav"
             sound_file = Path(path)
             # insert 500 ms silence for punctuation marks
             if syllable in TextToSpeech.punctuation:
@@ -89,7 +89,13 @@ class TextToSpeech:
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-        result.export(directory+"generated.mp3", format='mp3', parameters=["-ac","1","-ar","8000"])
+        if compressed is True:
+            print("compressed")
+            result.export(directory + "generated." + audio_type, format=audio_type, parameters=["-ac", "1", "-ar", "8000"])
+        else:
+            print("not compressed")
+            result.export(directory + "generated." + audio_type, format=audio_type)
+
         print("Exported.")
 
     def _play_audio(path, delay):
@@ -101,13 +107,13 @@ class TextToSpeech:
                             channels=wf.getnchannels(),
                             rate=wf.getframerate(),
                             output=True)
-            
+
             data = wf.readframes(TextToSpeech.CHUNK)
-            
+
             while data:
                 stream.write(data)
                 data = wf.readframes(TextToSpeech.CHUNK)
-        
+
             stream.stop_stream()
             stream.close()
 
@@ -116,6 +122,7 @@ class TextToSpeech:
         except:
             pass
 
+
 def start_chatting(key, location):
     print("你好!")
     key = Turing_API_key if key is None else key
@@ -123,27 +130,30 @@ def start_chatting(key, location):
     while True:
         sentence = input('输入中文：')
         r = requests.post(
-            Turing_API_address, 
-            json = {
-            "key": key,
-            "info": sentence, 
-            "loc": location, 
-            "userid":"1"
+            Turing_API_address,
+            json={
+                "key": key,
+                "info": sentence,
+                "loc": location,
+                "userid": "1"
             })
         response = r.json()["text"]
         print(response)
         tts.speak(response)
 
+
 if __name__ == '__main__':
     tts = TextToSpeech()
-    
+
     parser = argparse.ArgumentParser(description="HanTTS: Chinese Text-to-Speech program")
     subparsers = parser.add_subparsers(title="subcommands", help='optional subcommands', dest='cmd')
-    
+
     synthesize_parser = subparsers.add_parser('synthesize', help='synthesize audio from text')
     synthesize_parser.add_argument('--text', help='the text to convert to speech', dest='text')
     synthesize_parser.add_argument('--src', help='source directory of audio library', dest='src')
     synthesize_parser.add_argument('--dst', help='destination directory for generated .wav file', dest='dst')
+    synthesize_parser.add_argument('--type', help='choose the type of generated file, like wav or mp3', dest='type')
+    synthesize_parser.add_argument('--compressed', help='output compressed audio file', dest='compressed')
 
     chat_parser = subparsers.add_parser('chat', help='chat using Turing Robot API')
     chat_parser.add_argument('--key', help='Turing Robot API key', dest='api_key')
@@ -163,11 +173,14 @@ if __name__ == '__main__':
             synthesize_parser.print_help()
             print('ERROR: Missing argument --dst')
             sys.exit(1)
-        tts.synthesize(args.text, args.src, args.dst)
+        print(args.compressed)
+        if args.compressed == 'false':
+            tts.synthesize(args.text, args.src, args.dst, args.type, False)
+        else:
+            tts.synthesize(args.text, args.src, args.dst, args.type, True)
+
     elif args.cmd == 'chat':
         start_chatting(args.api_key, args.location)
     else:
         while True:
             tts.speak(input('输入中文：'))
-
-

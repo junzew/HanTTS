@@ -6,15 +6,26 @@
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" crossorigin="anonymous"></script>
+<label for="input-text">生成声音文本：</label>
+<br />
 <textarea id="input-text"></textarea>
+
+<br />
+<label for="pythonV">Python 指令名：</label>
+<input id="pythonV" value="python"/>
+<p>需要python3来运行，如果你的设备中Python别名为python3 请修改内容为python3</p>
 <br>
 <button id="bt">Synthesize</button>
 <script type="text/javascript">
 	$("#bt").click(function() {
 		var text = $("#input-text").val();
+		const pythonVersion=$('#pythonV').val();
 		$.ajax({
 			url: window.location,
-			data: JSON.stringify({"text": text}),
+			data: JSON.stringify({
+				"text": text,
+				"pythonChoose":pythonVersion
+			}),
 			contentType: "application/json",
 			type: "POST",
 			success: function(data) {
