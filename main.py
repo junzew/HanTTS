@@ -55,7 +55,7 @@ class TextToSpeech:
             _thread.start_new_thread(TextToSpeech._play_audio, (path, delay))
             delay += 0.355
 
-    def synthesize(self, text, src, dst, audio_type, compressed):
+    def synthesize(self, text, src, dst, audio_type, compressed, speed):
         """
         Synthesize .wav from text
         src is the folder that contains all syllables .wav files
@@ -88,10 +88,15 @@ class TextToSpeech:
         directory = dst
         if not os.path.exists(directory):
             os.makedirs(directory)
+        if speed != 0:
+            print("speed:" + str(2 ** float(speed)))
+            new_sample_rate = int(result.frame_rate * (2.0 ** float(speed)))
+            result = result._spawn(result.raw_data, overrides={'frame_rate': new_sample_rate})
 
         if compressed is True:
             print("compressed")
-            result.export(directory + "generated." + audio_type, format=audio_type, parameters=["-ac", "1", "-ar", "8000"])
+            result.export(directory + "generated." + audio_type, format=audio_type,
+                          parameters=["-ac", "1", "-ar", "8000"])
         else:
             print("not compressed")
             result.export(directory + "generated." + audio_type, format=audio_type)
@@ -154,6 +159,7 @@ if __name__ == '__main__':
     synthesize_parser.add_argument('--dst', help='destination directory for generated .wav file', dest='dst')
     synthesize_parser.add_argument('--type', help='choose the type of generated file, like wav or mp3', dest='type')
     synthesize_parser.add_argument('--compressed', help='output compressed audio file', dest='compressed')
+    synthesize_parser.add_argument('--speed', help='modify output audio speed, follow by number', dest='speed')
 
     chat_parser = subparsers.add_parser('chat', help='chat using Turing Robot API')
     chat_parser.add_argument('--key', help='Turing Robot API key', dest='api_key')
@@ -173,11 +179,16 @@ if __name__ == '__main__':
             synthesize_parser.print_help()
             print('ERROR: Missing argument --dst')
             sys.exit(1)
-        print(args.compressed)
+        audioType = 'wav'
+        if args.type:
+            audioType = args.type
+        compressAudio = True
         if args.compressed == 'false':
-            tts.synthesize(args.text, args.src, args.dst, args.type, False)
-        else:
-            tts.synthesize(args.text, args.src, args.dst, args.type, True)
+            compressAudio = False
+        audioSpeed = 0
+        if args.speed != '0':
+            audioSpeed = args.speed
+        tts.synthesize(args.text, args.src, args.dst, audioType, compressAudio, audioSpeed)
 
     elif args.cmd == 'chat':
         start_chatting(args.api_key, args.location)

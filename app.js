@@ -54,7 +54,7 @@ app.get("/file", function (req, res) {
     res.download("./audio/generated.wav")
 });
 
-app.get("/:pythonVersion/:type/:decodeUTF8/:compressed/:text", function (req, res) {
+app.get("/:pythonVersion/:type/:decodeUTF8/:compressed/:speed/:text", function (req, res) {
     let text;
     const audioType = req.params.type;
     if (req.params.decodeUTF8 === 'true') {
@@ -62,6 +62,7 @@ app.get("/:pythonVersion/:type/:decodeUTF8/:compressed/:text", function (req, re
     } else {
         text = req.params.text;
     }
+    const speed = req.params.speed;
 
     const args = ["./main.py",
         'synthesize',
@@ -69,7 +70,8 @@ app.get("/:pythonVersion/:type/:decodeUTF8/:compressed/:text", function (req, re
         '--src', "./syllables/",
         '--dst', "./audio/",
         '--type', audioType,
-        '--compressed', req.params.compressed
+        '--compressed', req.params.compressed,
+        '--speed',speed
     ]
     const pythonChoose = req.params.pythonVersion;
 

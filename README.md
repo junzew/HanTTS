@@ -4,6 +4,8 @@ Chinese Text-to-Speech(TTS)
 
 汉字 => ["han4", "zi4"] => .wav audio
 
+(environment: python 3)
+
 *Read this page in [简体中文](https://github.com/junzew/HanTTS/blob/master/README.zh.md)*
 ## Libraries Used
 
@@ -28,7 +30,6 @@ cd HanTTS
 pip install --user -r requires.txt
 ```
 
-Download [`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source=navbar) from SourceForge, and decompress under the directory `HanTTS`.
 
 * Either run locally: `python main.py` 
 * Or through web interface:
@@ -38,6 +39,26 @@ Download [`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source
 	node app.js
 	```
 	Navigate to `localhost:3000` in a browser
+
+## Advance usage
+set audio params by yourself
+`http://127.0.0.1:3000/pythonAlias/audioType/decodeUTF8/compressed/speed/text`
+
+For example
+```
+http://127.0.0.1:3000/python3/wav/false/true/1/测试
+```
+
+|  params   | accept  |note|
+|  ----  | ----  |----|
+| pythonAlias  | python, python3 |if your device use 'python3' as command, you can use this|
+| audioType  | wav, mp3 (others not tested) | choose the output file type|
+|decodeUTF8|true, false|if text need to decode to utf-8|
+|compressed|true, false| output a smaller audio file|
+|speed|numbers, like -0.5, 1, 3 |( float and negative is accepted ), if you don't want to change speed, use 0|
+|text|chinese|the content of TTS|
+
+
 
 ## Use your own voice
 - Record [five tones](https://en.wikipedia.org/wiki/Pinyin#Tones) of each [pinyin](https://en.wikipedia.org/wiki/Pinyin_table) listed in `mapping.json`
