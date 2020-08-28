@@ -1,7 +1,7 @@
 matrix:
   include:
     - language: python
-      python: 3.4.3
+      python: 3.4
       before_install:
         - sudo apt-get update
         - sudo apt-get install python3
@@ -16,5 +16,3 @@ matrix:
     - language: node_js
       node_js: 
         - "6"
-      before_script:
-        - cd server
