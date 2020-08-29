@@ -4,6 +4,7 @@
 
 汉字 => 拼音 ["han4", "zi4"] => .wav音频
 
+(environment: python 3)
 ## 使用的库
 
 #### 汉字转拼音
@@ -27,14 +28,30 @@ cd HanTTS
 pip install --user -r requires.txt
 ```
 
-从SourceForge下载语音库[`syllables.zip`](https://sourceforge.net/projects/hantts/files/?source=navbar)，并解压到`HanTTS`目录下
-
 - 本地执行 `python main.py`
 - 或 Web
 	- `cd` 到 `server` 文件夹下
 	- `npm install`
 	- `node app.js`
 	- 浏览器里打开`localhost:3000` 
+
+## 进阶使用
+自己设置音频参数
+`http://127.0.0.1:3000/pythonAlias/audioType/decodeUTF8/compressed/speed/text`
+
+For example
+```
+http://127.0.0.1:3000/python3/wav/false/true/1/测试
+```
+
+|  params   | accept  |note|
+|  ----  | ----  |----|
+| pythonAlias  | python, python3 |如果你的设备python别名为python3，请填写python3|
+| audioType  | wav, mp3 (其他没有测试) | 音频输出格式|
+|decodeUTF8|true, false|是否文字需要解码utf-8|
+|compressed|true, false|是否输出一个压缩文件|
+|speed|数字, 比如 -0.5, 1, 3 |( 可以使用float或者负数 ), 如果不想改变速度，填写 0|
+|text|中文|TTS的内容|
 
 ## 录制新的语音库
 - 按阴平、阳平、上声、去声、轻声的顺序录下 mapping.json 里每一个音节的五个声调
