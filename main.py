@@ -89,7 +89,7 @@ class TextToSpeech:
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-        result.export(directory+"generated.wav", format="wav")
+        result.export(directory+"/generated.wav", format="wav")
         print("Exported.")
 
     def _play_audio(path, delay):
